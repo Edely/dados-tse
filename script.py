@@ -32,55 +32,13 @@ def distribution(the_data, *the_columns):
             values_compare.append(temp_compare)
         total_candidatos +=1
 
-    #cria dictionary das colunas
-    values_compare = dict.fromkeys(values_compare,0)
-    #dict_columns = dict.fromkeys(values_base, values_compare)
-    """ for k, v in values_compare.items():
-        print(k)
-        print(id(k))
-        print('\n') """
-    
-    dict_columns = {column: values_compare.copy() for column in values_base}
-    #print(dict_columns)
-    # print(values_base)
-    for k, v in dict_columns.items():
-        print(k)
-        print(id(k))
-        print(v)
-        print(id(v))
-        for a, b in v.items():
-            print(a)
-            print(id(a))
-            print(b)
-            print(id(b))
-        print('\n')
 
-    # brands = ['val1', 'val2', 'val3']
-    # infoBrands = {brand: {'nbOffers': 0, 'nbBestOffers': 0, 'higherPrice': []} for brand in brands}
-    """ 
-    print(id(dict_columns))
-    for k, v in dict_columns.items():
-        print(v)
-        print(k)
-        print(id(v))
-        print('\n')
-    """
+    values_compare = dict.fromkeys(values_compare,0)
+    dict_columns = {column: values_compare.copy() for column in values_base}
+
     count = 0
     for k, v in the_data.items():
-        #print('\n')
-        #print(count)
-        # print(v[base])
-        # print(v[compare_to])
-        
-        # print(id(dict_columns[v[base]]))
-        # print(dict_columns[v[base]])
-        #dict_columns[v[base]][v[compare_to]] += 1
-        #print(dict_columns)
-        #print(id(dict_columns[v[base]]))
-        #print('\n')
-        if(count == 10):
-            break
-        count += 1
-    #print(dict_columns)
+        dict_columns[v[base]][v[compare_to]] += 1
+    print(dict_columns)
 
 distribution(df_dict, 'DS_GENERO', 'DS_GRAU_INSTRUCAO')
