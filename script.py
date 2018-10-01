@@ -27,15 +27,23 @@ def distribution(the_data, *the_columns):
         values_compare.add(candidato[compare_to])
         total_candidatos +=1
 
+    values_compare = dict.fromkeys(values_compare,0)
+    #print(values_compare)
+    dict_columns = dict.fromkeys(values_base, values_compare)
+
+    print(dict_columns)
+    #dict_values = dict(zip(values_base, values_compare))
+
+    #print(dict_values)
     #print(values_base)
     #print(values_compare)
     #print(total_candidatos)
 
-    for k, v in the_data.items():
-        for column in the_columns:
-            
+    # for k, v in the_data.items():
+    #     for column in the_columns:
+
             #print('\n')
             #print(v['NM_CANDIDATO']+ ' ' + v[base] + ' ' + v[compare_to] +'\n')
 
 
-distribution(df_dict, 'DS_GRAU_INSTRUCAO', 'DS_GENERO')
+distribution(df_dict, 'DS_GENERO', 'DS_GRAU_INSTRUCAO')
