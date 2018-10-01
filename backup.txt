@@ -1,51 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-import pandas as pd
-import json
-
-df_ba = pd.read_csv('dados/consulta_cand_2018_BA.csv', encoding='latin1', sep=';')
-#df_ba.set_index('NR_CANDIDATO')
-df_dict = df_ba.to_dict('index')
-
-#traz a porcentagem
-def distribution(the_data, *the_columns):
-    '''
-    Retorna a distribuicao de candidatos pelo critério selecionado (colunas)
-    '''
-
-    total_candidatos = 0
-
-    #acessa colunas que serao comparadas
-    base = the_columns[0]
-    compare_to = the_columns[1]
-
-    values_base = []
-    values_compare = []
-
-    for key, candidato in the_data.items():
-        if(candidato[base] not in values_base):
-            values_base.append(candidato[base])
-        if(candidato[compare_to] not in values_compare):
-            values_compare.append(candidato[compare_to])
-        total_candidatos +=1
-
-    print(candidato[base])
-    print(candidato[compare_to])
-    #cria dictionary das colunas
-    values_compare = dict.fromkeys(values_compare,0)
-    dict_columns = dict.fromkeys(values_base, values_compare)
-
-    # dict_columns = json.dumps(dict_columns)
-    # the_data = json.dumps(the_data)
-    #print(dict_columns)
-
-    #dict_values = dict(zip(values_base, values_compare))
-
-    #print(dict_values)
-    #print(values_base)
-    #print(values_compare)
-    #print(total_candidatos)
 
     count = 0
     for k, v in the_data.items():
@@ -104,6 +56,3 @@ def distribution(the_data, *the_columns):
     # for k, v in the_data.items():
     #     for column in the_columns:
     #     
-
-
-distribution(df_dict, 'DS_GENERO', 'DS_GRAU_INSTRUCAO')
