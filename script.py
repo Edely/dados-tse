@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
+from slugify import slugify
 import json
 
 df_ba = pd.read_csv('dados/consulta_cand_2018_BA.csv', encoding='latin1', sep=';')
@@ -39,6 +40,18 @@ def distribution(the_data, *the_columns):
     count = 0
     for k, v in the_data.items():
         dict_columns[v[base]][v[compare_to]] += 1
-    print(dict_columns)
+    print_json(dict_columns, the_columns)
+
+def print_json(dict_json, the_columns):
+    name = slugify(the_columns[0] +'-'+the_columns[1])
+    
+    file_json = open(name+".json", 'w+')
+    
+    dict_export = json.dumps(dict_json, ensure_ascii=False)
+    file_json.write(dict_export)
+    #print(dict_export)
+    file_json.close()
+
 
 distribution(df_dict, 'DS_GENERO', 'DS_GRAU_INSTRUCAO')
+distribution(df_dict, 'DS_GENERO', 'DS_COR_RACA')
