@@ -38,13 +38,16 @@ def compare_columns(the_data, the_columns):
     save_json(dict_columns, the_columns)
 
 def quant_column(the_data, one_column):
+    '''
+    Retorna o número de ocorrencias em uma coluna
+    '''
     chave = one_column[0]
 
-    keys = {}
+    dict_one = {}
     for k, v in the_data.items():
-        keys[v[chave]] = keys.get(v[chave], 0) + 1
-
-    print(keys)
+        dict_one[v[chave]] = dict_one.get(v[chave], 0) + 1
+    save_json(dict_one, one_column)
+        
 def save_json(dict_json, the_columns):
     '''
     Salva o dictionary inserido em formato json
@@ -52,8 +55,17 @@ def save_json(dict_json, the_columns):
     folder = os.path.dirname(__file__)+"/dados_exportados/"
     if(not os.path.isdir(folder)):
         os.mkdir(folder)
-    
-    name = slugify(the_columns[0] +'-'+the_columns[1])
+
+    name_columns = ""
+    i = 0
+
+    for column in the_columns:
+        if(i != 0):
+            name_columns += "_"
+        name_columns += column
+        i += 1
+    name = slugify(name_columns)
+
     file_json = open(folder+name+".json", 'w+', encoding='utf')
     dict_export = json.dumps(dict_json, ensure_ascii=False)
     file_json.write(dict_export)
