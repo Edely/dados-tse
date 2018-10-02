@@ -11,7 +11,6 @@ def compare_columns(the_data, the_columns):
     Retorna a relacao entre as colunas duas primeiras inseridas
     '''
 
-    total_candidatos = 0
     #acessa colunas que serao comparadas
     base = the_columns[0]
     compare_to = the_columns[1]
@@ -76,9 +75,9 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--file-path', help="Lê arquivo csv.")
     parser.add_argument('-c', '--compare-columns', nargs='+', help="Cria uma relação entre duas colunas", default="")
     parser.add_argument('-o', '--one-column', nargs='+', help="Analiza número de ocorrências em uma coluna", default="")
-
+    
     args = parser.parse_args()
-
+    print(args)
     if(not args.file_path):
         print("Arquivo csv não foi informado. Terminando script.")
         sys.exit(0)
