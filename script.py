@@ -4,19 +4,19 @@
 import pandas as pd
 from slugify import slugify
 import json
+import argparse
 
 df_ba = pd.read_csv('dados/consulta_cand_2018_BA.csv', encoding='latin1', sep=';')
 #df_ba.set_index('NR_CANDIDATO')
 df_dict = df_ba.to_dict('index')
 
 #traz a porcentagem
-def compare_columns(the_data, *the_columns):
+def compare_columns(the_data, the_columns):
     '''
-    Retorna a distribuicao de candidatos pelo critério selecionado (colunas)
+    Retorna a relacao entre as colunas duas primeiras inseridas
     '''
 
     total_candidatos = 0
-
     #acessa colunas que serao comparadas
     base = the_columns[0]
     compare_to = the_columns[1]
@@ -40,22 +40,23 @@ def compare_columns(the_data, *the_columns):
     count = 0
     for k, v in the_data.items():
         dict_columns[str(v[base])][str(v[compare_to])] += 1
-    print_json(dict_columns, the_columns)
+    save_json(dict_columns, the_columns)
 
-def print_json(dict_json, the_columns):
+def save_json(dict_json, the_columns):
     name = slugify(the_columns[0] +'-'+the_columns[1])
     
     file_json = open(name+".json", 'w+')
+    print(dict_json)
     
     dict_export = json.dumps(dict_json, ensure_ascii=False)
     file_json.write(dict_export)
-    #print(dict_export)
     file_json.close()
 
-#compare_columns(df_dict, 'DS_GENERO', 'DS_GRAU_INSTRUCAO')
-#compare_columns(df_dict, 'DS_GENERO', 'DS_COR_RACA')
-#compare_columns(df_dict, 'SG_PARTIDO', 'DS_GENERO')
-#compare_columns(df_dict, 'SG_PARTIDO', 'DS_GRAU_INSTRUCAO')
-#compare_columns(df_dict, 'DS_GRAU_INSTRUCAO', 'DS_COR_RACA')
-
-compare_columns(df_dict, 'DS_GENERO', 'CD_GENERO')
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--compare-columns', nargs='+', help="Cria uma relação entre duas colunas", default="")
+    args = parser.parse_args()
+    
+    if(args.compare_columns):
+        colunas = args.compare_columns
+        compare_columns(df_dict, colunas)
