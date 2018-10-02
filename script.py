@@ -37,6 +37,14 @@ def compare_columns(the_data, the_columns):
         dict_columns[str(v[base])][str(v[compare_to])] += 1
     save_json(dict_columns, the_columns)
 
+def quant_column(the_data, one_column):
+    chave = one_column[0]
+
+    keys = {}
+    for k, v in the_data.items():
+        keys[v[chave]] = keys.get(v[chave], 0) + 1
+
+    print(keys)
 def save_json(dict_json, the_columns):
     '''
     Salva o dictionary inserido em formato json
@@ -55,6 +63,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--file-path', help="Lê arquivo csv.")
     parser.add_argument('-c', '--compare-columns', nargs='+', help="Cria uma relação entre duas colunas", default="")
+    parser.add_argument('-o', '--one-column', nargs='+', help="Analiza número de ocorrências em uma coluna", default="")
+
     args = parser.parse_args()
 
     if(not args.file_path):
@@ -67,3 +77,10 @@ if __name__ == "__main__":
     if(args.compare_columns):
         colunas = args.compare_columns
         compare_columns(df_dict, colunas)
+        sys.exit()
+
+    if(args.one_column):
+        coluna = args.one_column
+        quant_column(df_dict, coluna)
+        sys.exit()
+    
