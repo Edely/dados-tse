@@ -10,7 +10,7 @@ df_ba = pd.read_csv('dados/consulta_cand_2018_BA.csv', encoding='latin1', sep=';
 df_dict = df_ba.to_dict('index')
 
 #traz a porcentagem
-def distribution(the_data, *the_columns):
+def compare_columns(the_data, *the_columns):
     '''
     Retorna a distribuicao de candidatos pelo critério selecionado (colunas)
     '''
@@ -26,10 +26,10 @@ def distribution(the_data, *the_columns):
 
     for key, candidato in the_data.items():
         if(candidato[base] not in values_base):
-            temp_base = (candidato[base] + '.')[:-1]
+            temp_base = (str(candidato[base]) + '.')[:-1]
             values_base.append(temp_base)
         if(candidato[compare_to] not in values_compare):            
-            temp_compare = (candidato[compare_to] + '.')[:-1]
+            temp_compare = (str(candidato[compare_to]) + '.')[:-1]
             values_compare.append(temp_compare)
         total_candidatos +=1
 
@@ -39,7 +39,7 @@ def distribution(the_data, *the_columns):
 
     count = 0
     for k, v in the_data.items():
-        dict_columns[v[base]][v[compare_to]] += 1
+        dict_columns[str(v[base])][str(v[compare_to])] += 1
     print_json(dict_columns, the_columns)
 
 def print_json(dict_json, the_columns):
@@ -52,6 +52,10 @@ def print_json(dict_json, the_columns):
     #print(dict_export)
     file_json.close()
 
+#compare_columns(df_dict, 'DS_GENERO', 'DS_GRAU_INSTRUCAO')
+#compare_columns(df_dict, 'DS_GENERO', 'DS_COR_RACA')
+#compare_columns(df_dict, 'SG_PARTIDO', 'DS_GENERO')
+#compare_columns(df_dict, 'SG_PARTIDO', 'DS_GRAU_INSTRUCAO')
+#compare_columns(df_dict, 'DS_GRAU_INSTRUCAO', 'DS_COR_RACA')
 
-distribution(df_dict, 'DS_GENERO', 'DS_GRAU_INSTRUCAO')
-distribution(df_dict, 'DS_GENERO', 'DS_COR_RACA')
+compare_columns(df_dict, 'DS_GENERO', 'CD_GENERO')
