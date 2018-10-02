@@ -3,12 +3,7 @@
 
 import pandas as pd
 from slugify import slugify
-import json
-import argparse
-
-df_ba = pd.read_csv('dados/consulta_cand_2018_BA.csv', encoding='latin1', sep=';')
-#df_ba.set_index('NR_CANDIDATO')
-df_dict = df_ba.to_dict('index')
+import json, argparse, sys, os
 
 #traz a porcentagem
 def compare_columns(the_data, the_columns):
@@ -43,20 +38,32 @@ def compare_columns(the_data, the_columns):
     save_json(dict_columns, the_columns)
 
 def save_json(dict_json, the_columns):
+    '''
+    Salva o dictionary inserido em formato json
+    '''
+    folder = os.path.dirname(__file__)+"/dados_exportados/"
+    if(not os.path.isdir(folder)):
+        os.mkdir(folder)
+    
     name = slugify(the_columns[0] +'-'+the_columns[1])
-    
-    file_json = open(name+".json", 'w+')
-    print(dict_json)
-    
+    file_json = open(folder+name+".json", 'w+', encoding='utf')
     dict_export = json.dumps(dict_json, ensure_ascii=False)
     file_json.write(dict_export)
     file_json.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument('-f', '--file-path', help="Lê arquivo csv.")
     parser.add_argument('-c', '--compare-columns', nargs='+', help="Cria uma relação entre duas colunas", default="")
     args = parser.parse_args()
-    
+
+    if(not args.file_path):
+        print("Arquivo csv não foi informado. Terminando script.")
+        sys.exit(0)
+    else:
+        df = pd.read_csv(args.file_path, encoding='latin1', sep=';')
+        df_dict = df.to_dict('index')
+
     if(args.compare_columns):
         colunas = args.compare_columns
         compare_columns(df_dict, colunas)
