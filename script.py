@@ -77,7 +77,7 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--one-column', nargs='+', help="Analiza número de ocorrências em uma coluna", default="")
     
     args = parser.parse_args()
-    print(args)
+    
     if(not args.file_path):
         print("Arquivo csv não foi informado. Terminando script.")
         sys.exit(0)
