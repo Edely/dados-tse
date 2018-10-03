@@ -8,7 +8,7 @@ import json, argparse, sys, os
 #traz a porcentagem
 def compare_columns(the_data, the_columns):
     '''
-    Retorna a relacao entre as colunas duas primeiras inseridas
+    Retorna a relacao entre as duas primeiras colunas inseridas
     '''
 
     #acessa colunas que serao comparadas
@@ -51,11 +51,12 @@ def save_json(dict_json, the_columns):
     '''
     Salva o dictionary inserido em formato json
     '''
+    
     folder = os.path.dirname(__file__)+"/dados_exportados/"
     if(not os.path.isdir(folder)):
         os.mkdir(folder)
 
-    name_columns = ""
+    name_columns = UF+"_"
     i = 0
 
     for column in the_columns:
@@ -82,6 +83,8 @@ if __name__ == "__main__":
         print("Arquivo csv não foi informado. Terminando script.")
         sys.exit(0)
     else:
+        global UF
+        UF = os.path.basename(args.file_path.split('.')[0])[19:]
         df = pd.read_csv(args.file_path, encoding='latin1', sep=';')
         df_dict = df.to_dict('index')
 
