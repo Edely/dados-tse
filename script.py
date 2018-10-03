@@ -82,8 +82,12 @@ if __name__ == "__main__":
         print("Arquivo csv não foi informado. Terminando script.")
         sys.exit(0)
     else:
+        base_name = os.path.basename(args.file_path.split('.')[0])
         global UF
-        UF = os.path.basename(args.file_path.split('.')[0])[19:]
+        if('perfil' not in base_name):
+            UF = base_name[19:]
+        else:
+            UF = 'perfil_eleitorado'
         df = pd.read_csv(args.file_path, encoding='latin1', sep=';')
         df_dict = df.to_dict('index')
 
