@@ -25,7 +25,6 @@ def compare_columns(the_data, the_columns):
         if(candidato[compare_to] not in values_compare):            
             temp_compare = (str(candidato[compare_to]) + '.')[:-1]
             values_compare.append(temp_compare)
-        total_candidatos +=1
 
 
     values_compare = dict.fromkeys(values_compare,0)
